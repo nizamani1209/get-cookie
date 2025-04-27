@@ -1,0 +1,7 @@
+{
+    "name": "php-app",
+    "description": "A simple PHP project for form submission",
+    "require": {
+        "php": "^7.4"
+    }
+}
